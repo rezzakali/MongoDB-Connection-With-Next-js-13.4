@@ -1,6 +1,14 @@
-1. download mongodb compass
+1. Download mongodb compass
 
-2. npm install mongoose
+2. Install mongoose (ODM)
+
+```bash
+npm i mongoose
+# or
+yarn add mongoose
+# or
+pnpm i mongoose
+```
 
 3. Create config and models directory
 
