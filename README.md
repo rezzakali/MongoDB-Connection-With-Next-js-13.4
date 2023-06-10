@@ -18,7 +18,7 @@ const nextConfig = {
 Inside config create dbConnect.js Write following code inside dbConnect.js
 
 ```bash
-   import mongoose from 'mongoose';
+import mongoose from 'mongoose';
 
 const MONGODB_URI = process.env.MONGODB_URI;
 
