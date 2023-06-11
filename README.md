@@ -14,10 +14,9 @@ pnpm i mongoose
 
 ```bash
 MONGO_CONN_URL=`mongodb://127.0.0.1:27017/test`
-
 ```
 
-4. Inside config create dbConnect.js Write following code inside dbConnect.js
+4. Inside config directory create dbConnect.js with following code
 
 ```bash
 import mongoose from 'mongoose';
@@ -60,10 +59,9 @@ async function dbConnect() {
 }
 
 export default dbConnect;
-
 ```
 
-5. Inside models create file userModel.js with following code
+5. Create userModel.js file inside model directory with the following code
 
 ```bash
 import mongoose from 'mongoose';
@@ -76,7 +74,6 @@ const userSchema = new mongoose.Schema({
 const User = mongoose.models.User || mongoose.model('User', userSchema);
 
 export default User;
-
 ```
 
 6. Create route.js file inside app\api\users directory
