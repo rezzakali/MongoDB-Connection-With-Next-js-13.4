@@ -1,9 +1,9 @@
 import mongoose from 'mongoose';
 
-const MONGODB_URI = process.env.MONGODB_URI;
+const MONGODB_URI = process.env.MONGO_CONN_URL;
 
 if (!MONGODB_URI) {
-  throw new Error('Please define the MONGODB_URI environment');
+  throw new Error('Please define the db url environment');
 }
 
 let cached = global.mongoose;

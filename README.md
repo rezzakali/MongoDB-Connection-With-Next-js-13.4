@@ -10,28 +10,22 @@ yarn add mongoose
 pnpm i mongoose
 ```
 
-3. Create config and models directory
-
-Add MongoDb Path in next.config.js
+3. Create .env and add your db connection string (add 127.0.0.0 instead of localhost)
 
 ```bash
-const nextConfig = {
-  env: {
-    MONGODB_URI: 'mongodb',
-  },
-};
+MONGO_CONN_URL=`mongodb://127.0.0.1:27017/test`
 
 ```
 
-Inside config create dbConnect.js Write following code inside dbConnect.js
+4. Inside config create dbConnect.js Write following code inside dbConnect.js
 
 ```bash
 import mongoose from 'mongoose';
 
-const MONGODB_URI = process.env.MONGODB_URI;
+const MONGODB_URI = process.env.MONGO_CONN_URL;
 
 if (!MONGODB_URI) {
-  throw new Error('Please define the MONGODB_URI environment');
+  throw new Error('Please define your db connection string in environment');
 }
 
 let cached = global.mongoose;
@@ -69,7 +63,7 @@ export default dbConnect;
 
 ```
 
-Inside Models create file user.js with following code
+5. Inside models create file userModel.js with following code
 
 ```bash
 import mongoose from 'mongoose';
@@ -77,47 +71,30 @@ import mongoose from 'mongoose';
 const userSchema = new mongoose.Schema({
   name: String,
   email: String,
-  password: String,
 });
 
-const User = mongoose.models.Users || mongoose.model('User', userSchema);
+const User = mongoose.models.User || mongoose.model('User', userSchema);
 
 export default User;
 
 ```
 
-Inside src\pages\api create a directory user
-
-Inside user directory create index.js with following code
+6. Create route.js file inside app\api\users directory
 
 ```bash
-import dbConnect from '../../../../config/dbConnect';
-import User from '../../../../models/User';
+import dbConnect from '@/app/config/dbConnect';
+import { NextResponse } from 'next/server';
 
-dbConnect();
-
-export default async (req, res) => {
-  const { method } = req;
-
-  switch (method) {
-    case 'GET':
-      try {
-        const user = await User.find({}).sort({ _id: -1 });
-        res.status(200).json({ success: true, data: user });
-      } catch (error) {
-        res.status(400).json({ success: false });
-      }
-      break;
-    default:
-      res.status(400).json({ success: false });
-      break;
+export async function GET(req) {
+  try {
+    await dbConnect();
+    return NextResponse.json({
+      message: 'Success',
+    });
+  } catch (err) {
+    console.log(err);
   }
-};
-
+}
 ```
 
-Insert some documents inside MongoDB
-
-10 Visit URL http://localhost:3000/api/user to get user list as API from MongoDB
-
-This is a Next.js project bootstrapped with create-next-app.
+7. Visit URL http://localhost:3000/api/users to get response from MongoDB
