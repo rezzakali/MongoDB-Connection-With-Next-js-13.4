@@ -39,3 +39,31 @@ export async function POST(req) {
     console.log(err);
   }
 }
+
+// ######################## GET USERS ######################
+export async function GET(req, res) {
+  try {
+    const users = await User.find();
+    console.log(users);
+
+    return NextResponse.json({
+      success: 'true',
+      data: users,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+// ################### DELETE USER ############################
+export async function DELETE(req, res) {
+  try {
+    const { id } = req.params;
+    await User.findById({ id });
+    return NextResponse.json({
+      message: 'User deleted successfully!',
+    });
+  } catch (error) {
+    console.log(error);
+  }
+}
